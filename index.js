@@ -11,6 +11,9 @@ const mongoose = require("mongoose");
 // Grab The Schema Object from  mongoose
 const { Schema } = mongoose;
 
+// Using cors `require()
+const cors = require("cors");
+
 require("dotenv").config();
 
 // connect  mongoose to MongoDB.
@@ -36,6 +39,9 @@ const User = mongoose.model(
     password: { type: String, required: true },
   })
 );
+
+// determine which domain can access the website
+app.use(cors());
 
 // Parse JSON bodies for this app.
 app.use(express.json());
