@@ -87,6 +87,7 @@ app.post("/login", (req, res) => {
     if (user) {
       res.send({
         status: "Valid",
+        token: user.id,
       });
     } else {
       res.send(404, {
