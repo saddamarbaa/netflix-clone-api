@@ -29,9 +29,9 @@ mongoose.connect(
   }
 );
 
-// define a schema
+// define  user a schema
 const User = mongoose.model(
-  "users",
+  "Users",
   new Schema({
     name: String,
     email: {
@@ -39,9 +39,28 @@ const User = mongoose.model(
       required: true,
       unique: true,
     },
-    password: { type: String, required: true },
+    password: {
+      type: String,
+      required: true,
+    },
   })
 );
+
+// define Wishlist a schema
+const WishListSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "Users",
+  },
+  movieId: Number,
+  backdrop_path: String,
+  title: String,
+});
+
+// unique compound index
+WishListSchema.index({ user: 1, movieId: 1 }, { unique: true });
+
+const WishList = mongoose.model("WishList", WishListSchema);
 
 // determine which domain can access the website
 app.use(cors());
@@ -71,13 +90,45 @@ app.get("/", (req, res) => {
   res.send("Creating My First Node JS API");
 });
 
+app.post("/wishlist", authenticateToken, (req, res) => {
+  // create new wishlist
+  const newWishListItem = new WishList({
+    user: req.user.id,
+    movieId: req.body.movieId,
+    backdrop_path: req.body.backdrop_path,
+    title: req.body.title,
+  });
+
+  // save the wishlist item
+  newWishListItem.save((err, wishlistItem) => {
+    if (err) {
+      res.send(400, {
+        status: err,
+      });
+    } else {
+      res.send({
+        wishlistItem: wishlistItem,
+        status: "saved",
+      });
+    }
+  });
+});
+
 // using the get method
 // LOGIC for the Get Request
 // Middleware
 app.get("/wishlist", authenticateToken, (req, res) => {
-  console.log("Am Authenticated ", req.user);
-  res.send({
-    items: ["The Avengers", "Tenet", "Queens Gambit"],
+  WishList.find({ user: req.user.id }, (err, docs) => {
+    if (err) {
+      res.send(400, {
+        status: err,
+      });
+    } else {
+      res.send({
+        status: "good",
+        results: docs,
+      });
+    }
   });
 });
 
@@ -91,9 +142,8 @@ app.post("/register", (req, res) => {
   // Save Model to Database
   // save user data to dataBase
   newUser.save((err, user) => {
-    //if user already exist(already been register)
     if (err) {
-      console.log(err);
+      //if user already exist(already been register)
       res.send(400, {
         status: err,
       });
@@ -107,37 +157,6 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {
-  // JavaScript object containing the parse JSON
-  // console.log(req.body);
-
-  const password = req.body.password;
-  const email = req.body.email;
-
-  User.findOne({ email: email, password: password }, (err, user) => {
-    // console.log(user);
-
-    const token = genereateAccessToken(user);
-    console.log("the web token for this user  is : ", token);
-    if (user) {
-      res.send({
-        status: "Valid",
-        token: token, // return token back to the fronEnd
-      });
-    } else {
-      res.send(404, {
-        status: "Not Found",
-      });
-    }
-  });
-});
-
-// Start the app
-// listening to the port
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}!`);
-});
-
 // function Generating a Token
 function genereateAccessToken(user) {
   const payload = {
@@ -145,5 +164,33 @@ function genereateAccessToken(user) {
     name: user.name,
   };
   // expires after  2 days (172800 seconds)
-  return jwt.sign(payload, "asdl4u47jj4dj", { expiresIn: "172800s" });
+  return jwt.sign(payload, "asdl4u47jj4dj", { expiresIn: "7200s" });
 }
+
+app.post("/login", (req, res) => {
+  // JavaScript object containing the parse JSON
+  // console.log(req.body);
+
+  const password = req.body.password;
+  const email = req.body.email;
+  User.findOne({ email: email, password: password }, (err, user) => {
+    // console.log(user);
+    if (user) {
+      const token = genereateAccessToken(user);
+      res.send({
+        status: "valid",
+        token: token,
+      });
+    } else {
+      res.send(404, {
+        status: "Not Found", // return token back to the fronEnd
+      });
+    }
+  });
+});
+
+// start our app
+// listening to the port
+app.listen(process.env.PORT || port, () => {
+  console.log(`Example app listening at http://localhost:${port}`);
+});
