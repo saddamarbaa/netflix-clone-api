@@ -1,5 +1,5 @@
-# netflix-clone-api
-NetFlix Clone API With NodeJS, User Authentication, MongoDB Database, JSON Web Token (JWT),Middleware Authentication
+# Netflix Clone API
+NetFlix Clone API With NodeJS, User Authentication, MongoDB Database,Mongoose,JSON Web Token (JWT),Middleware Authentication
 and localStorage
 
 
