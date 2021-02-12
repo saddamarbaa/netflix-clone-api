@@ -1,20 +1,22 @@
-// importing express framework
+// importing express framework from node_modules
 const express = require("express");
+
 // initializ express
 const app = express();
+
 // setting the port
 const port = 3000;
 
-// Using Node.js `require()  (importing mongoose)
+// Using Node.js `require()  (importing mongoose from node_modules)
 const mongoose = require("mongoose");
 
 // Grab The Schema Object from  mongoose
 const { Schema } = mongoose;
 
-// Using cors `require()
+// Using cors  (importing cors from node_modules)
 const cors = require("cors");
 
-// Using jwt `require()  (importing jwt)
+// Using jwt `require() (importing jwt from node_modules)
 const jwt = require("jsonwebtoken");
 
 require("dotenv").config();
