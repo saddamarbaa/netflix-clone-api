@@ -22,14 +22,17 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 // connect  mongoose to MongoDB.
-mongoose.connect(
-  `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.ffror.mongodb.net/netflix-api-db-dev?retryWrites=true&w=majority`,
-  {
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-    useNewUrlParser: true,
-  }
-);
+mongoose
+  .connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.ffror.mongodb.net/netflix-api-db-dev?retryWrites=true&w=majority`,
+    {
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    }
+  )
+  .then(() => console.log("conneted to DB ..."))
+  .catch((error) => console.log(error));
 
 // define  user a schema
 const User = mongoose.model(
