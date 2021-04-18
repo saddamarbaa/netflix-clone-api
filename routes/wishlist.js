@@ -6,54 +6,15 @@ const express = require("express");
 // Grab The Router from express
 const router = express.Router();
 
-// Import jwt from node_modules (Using jwt)
-const jwt = require("jsonwebtoken");
-
 // Create WishList model
 const WishList = require("../models/WishList");
 
-// function for Generating Token
-const generateAccessToken = (user) => {
-	const payload = {
-		id: user.id,
-		name: user.name,
-	};
-	// expires after 2 days (172800 seconds)
-	// "asdl4u47jj4dj" is the Secret Key
-	return jwt.sign(payload, "asdl4u47jj4dj", { expiresIn: "7200s" });
-};
+// Import Middleware function to authenticate token From different file
+const authenticateToken = require("../helpers/auth");
 
-// Middleware function to authenticate token
-const authenticateToken = (req, res, next) => {
-	// console.log("req.headers is ", req.headers);
-	// get jwt Token from the request header
-	const authHeaderToken = req.headers["authorization"];
-
-	// if there is no token
-	// HTTP Status 401 mean Unauthorized
-	if (!authHeaderToken) {
-		return res.status(401).send({
-			status: "Unauthorized",
-		});
-	}
-
-	// if there is token then verify
-	jwt.verify(authHeaderToken, "asdl4u47jj4dj", (err, user) => {
-		// token is not valid (token is expired)
-		// HTTP Status 403 mean Forbidden
-		if (err) {
-			return res.status(403).send({
-				status: "Maybe is token is expired(Forbidden)",
-			});
-		}
-
-		// console.log("The Authorized User is ", user);
-		req.user = user;
-		next();
-	});
-};
-
-// API Endpoint add wishlist
+// API Endpoint to add wishlist
+// Call (authenticateToken) Middleware function first
+// This is now a protected route
 router.post("/", authenticateToken, (req, res) => {
 	// create new wishlist
 	const newWishListItem = new WishList({
@@ -81,8 +42,9 @@ router.post("/", authenticateToken, (req, res) => {
 	});
 });
 
-// API Endpoint get wishlist
-// Middleware
+// API Endpoint to get wishlist
+// Call (authenticateToken) Middleware function first
+// This is now a protected route
 router.get("/", authenticateToken, (req, res) => {
 	console.log("I am  authenticated User ", req.user);
 	WishList.find({ user: req.user.id }, (err, docs) => {

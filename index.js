@@ -6,19 +6,10 @@ const express = require("express");
 // Initialize express
 const app = express();
 
-// Import jwt from node_modules (Using jwt)
-const jwt = require("jsonwebtoken");
-
 // Require dotenv(to manage secrets and configs)
 // Using dotenv package to create environment variables
 const dotenv = require("dotenv");
 dotenv.config();
-
-// Create User model just by requiring the User
-const User = require("./models/User");
-
-// Create WishList model
-const WishList = require("./models/WishList");
 
 // Import mongoose from node_modules
 const mongoose = require("mongoose");
@@ -57,7 +48,7 @@ const cors = require("cors");
 // Determine which domain can access the website
 app.use(cors());
 
-// Prses incoming requests with JSON payloads
+// parses incoming requests with JSON payloads
 app.use(express.json());
 
 // Import Home page routes
