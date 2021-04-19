@@ -36,17 +36,18 @@ router.post("/", authenticateToken, (req, res) => {
 			console.log("wishlistItem been saved to database");
 			res.status(200).send({
 				wishlistItem: WishList, // return the WishList
-				status: "saved",
+				status: "WishList is been saved",
 			});
 		}
 	});
 });
 
-// API Endpoint to get wishlist
+// API Endpoint to get wishlist(Return All the wishlists movie)
 // Call (authenticateToken) Middleware function first
 // This is now a protected route
 router.get("/", authenticateToken, (req, res) => {
 	console.log("I am  authenticated User ", req.user);
+	// find all the wishlist base on user
 	WishList.find({ user: req.user.id }, (err, docs) => {
 		if (err) {
 			res.send(400, {
@@ -55,7 +56,7 @@ router.get("/", authenticateToken, (req, res) => {
 		} else {
 			res.send({
 				status: "good",
-				results: docs, // return wishlist movies
+				results: docs, // return wishlists movies
 			});
 		}
 	});

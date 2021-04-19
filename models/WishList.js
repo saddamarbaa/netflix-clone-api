@@ -20,6 +20,7 @@ const wishListSchema = new Schema({
 });
 
 // unique compound index
+// the movie and the User are now unique no duplicates movie in DB
 wishListSchema.index({ user: 1, movieId: 1 }, { unique: true });
 
 // Compile model from schema
