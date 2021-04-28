@@ -1,15 +1,8 @@
 /** @format */
 
-// Import jwt from node_modules (Using jwt)
 const jwt = require("jsonwebtoken");
 
-// Access Environment variables
 const TOKEN_SECRET = process.env.TOKEN_SECRET || "asdl4u47jj4dj";
-
-// Import Middleware function to authenticate token From different file
-const authenticateToken = require("../helpers/auth");
-
-// Create User model just by requiring the User
 const User = require("../models/User");
 
 // function for Generating Token

@@ -1,22 +1,15 @@
 /** @format */
 
-// Import express  from node_modules
 const express = require("express");
-
-// Grab The Router from express
 const router = express.Router();
 
-// Create WishList model
 const WishList = require("../models/WishList");
+const authenticateToken = require("../auths/auth");
 
-// Import Middleware function to authenticate token From different file
-const authenticateToken = require("../helpers/auth");
-
-// API Endpoint to add wishlist
+// API Endpoint to add wishlist(protected route)
 // Call (authenticateToken) Middleware function first
-// This is now a protected route
 router.post("/", authenticateToken, (req, res) => {
-	// create new wishlist
+	// Create new wishlist
 	const newWishListItem = new WishList({
 		user: req.user.id,
 		movieId: req.body.movieId,
@@ -24,7 +17,7 @@ router.post("/", authenticateToken, (req, res) => {
 		title: req.body.title,
 	});
 
-	// save the wishlist item
+	// Save the wishlist item
 	newWishListItem.save((err, WishList) => {
 		//if user already exist(already been register)
 		if (err) {
@@ -36,18 +29,16 @@ router.post("/", authenticateToken, (req, res) => {
 			console.log("wishlistItem been saved to database");
 			res.status(200).send({
 				wishlistItem: WishList, // return the WishList
-				status: "WishList is been saved",
+				status: "saved",
 			});
 		}
 	});
 });
 
-// API Endpoint to get wishlist(Return All the wishlists movie)
+// API Endpoint to get wishlist(protected route)
 // Call (authenticateToken) Middleware function first
-// This is now a protected route
 router.get("/", authenticateToken, (req, res) => {
 	console.log("I am  authenticated User ", req.user);
-	// find all the wishlist base on user
 	WishList.find({ user: req.user.id }, (err, docs) => {
 		if (err) {
 			res.send(400, {
@@ -56,7 +47,7 @@ router.get("/", authenticateToken, (req, res) => {
 		} else {
 			res.send({
 				status: "good",
-				results: docs, // return wishlists movies
+				results: docs, // return wishlist movies
 			});
 		}
 	});

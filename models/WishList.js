@@ -1,9 +1,6 @@
 /** @format */
 
-// Import the mongoose module from node_modules
 const mongoose = require("mongoose");
-
-// Grab The Schema Object from mongoose
 const { Schema } = mongoose;
 
 // Defining a Model and Creating a Database Schema
