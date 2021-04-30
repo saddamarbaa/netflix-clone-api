@@ -4,10 +4,14 @@
 	"description": "This is Api for Netflix Clone",
 	"main": "server.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node server.js"
 	},
 	"author": "saddam",
 	"license": "ISC",
+	"engines": {
+		"node": "14.16.0"
+	},
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
 		"cors": "^2.8.5",
