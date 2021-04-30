@@ -1,6 +1,6 @@
 /** @format */
 const mongoose = require("mongoose");
-const User = require("../models/user.js");
+const User = require("../models/User");
 
 const bcrypt = require("bcryptjs");
 const generateAccessToken = require("../auths/getToken");

@@ -1,9 +1,7 @@
 /** @format */
 
 const jwt = require("jsonwebtoken");
-
 const TOKEN_SECRET = process.env.TOKEN_SECRET || "asdl4u47jj4dj";
-const User = require("../models/User");
 
 // function for Generating Token
 const generateAccessToken = (user) => {
