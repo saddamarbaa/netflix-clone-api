@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const generateAccessToken = require("../auths/getToken");
 
 // API Endpoint for Handling Post Request to /User/login
-const userLogin = (req, res, next) => {
+exports.userLogin = (req, res, next) => {
 	// Validated the user
 	// (find) return an array with one user or empty array
 	User.find({ email: req.body.email })
@@ -49,7 +49,7 @@ const userLogin = (req, res, next) => {
 };
 
 // API Endpoint for Handling Post Request to / Users/signup
-const userSignup = (req, res, next) => {
+exports.userSignup = (req, res, next) => {
 	// Validated that the user was not registered before
 	User.find({ email: req.body.email })
 		.exec()
@@ -98,4 +98,4 @@ const userSignup = (req, res, next) => {
 		});
 };
 
-module.exports = { userLogin, userSignup };
+// module.exports = { userLogin, userSignup };
