@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 
-const authenticateToken = require("../auths/auth");
+// const authenticateToken = require("../auths/auth");
 const { userLogin, userSignup } = require("../controllers/users");
 
 // API Endpoint for /User/login
