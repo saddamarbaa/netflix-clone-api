@@ -2,7 +2,7 @@
 
 const bcrypt = require("bcryptjs");
 const generateAccessToken = require("../auths/getToken");
-const User = require("../models/User");
+const User = require("../models/user");
 const mongoose = require("mongoose");
 
 // API Endpoint for Handling Post Request to /User/login
