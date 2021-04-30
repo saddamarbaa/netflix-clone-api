@@ -30,7 +30,7 @@ const userRoutes = require("./routes/users");
 const wishlistRoutes = require("./routes/wishlist");
 
 // Connect mongoose to MongoDB.
-const mongoDB = `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@cluster0.ffror.mongodb.net/${MONGO_DB_NAME}?retryWrites=true&w=majority`;
+const mongoDB = `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@cluster0.ii8vq.mongodb.net/${MONGO_DB_NAME}?retryWrites=true&w=majority`;
 
 mongoose
 	.connect(mongoDB, {
@@ -83,4 +83,3 @@ app.use((error, req, res, next) => {
 });
 
 module.exports = app;
-
