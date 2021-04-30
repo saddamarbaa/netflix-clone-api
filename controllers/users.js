@@ -1,9 +1,9 @@
 /** @format */
+const mongoose = require("mongoose");
+const User = require("../models/user.js");
 
 const bcrypt = require("bcryptjs");
 const generateAccessToken = require("../auths/getToken");
-const User = require("../models/User");
-const mongoose = require("mongoose");
 
 // API Endpoint for Handling Post Request to /User/login
 const userLogin = (req, res, next) => {
@@ -98,7 +98,4 @@ const userSignup = (req, res, next) => {
 		});
 };
 
-module.exports = {
-	userLogin,
-	userSignup,
-};
+module.exports = { userLogin, userSignup };

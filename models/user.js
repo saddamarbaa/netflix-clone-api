@@ -1,4 +1,5 @@
 /** @format */
+
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
@@ -24,6 +25,12 @@ const userSchema = new Schema({
 	},
 });
 
+let User;
+try {
+	User = mongoose.model("User");
+} catch (error) {
+	User = mongoose.model("User", userSchema);
+}
+
 // Export model
-// Compile model from schema
-module.exports = mongoose.model("User", userSchema);
+module.exports = User;
