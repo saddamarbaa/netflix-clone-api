@@ -25,6 +25,7 @@ const userSchema = new Schema({
 	},
 });
 
+// Compile model from schema
 let User;
 try {
 	User = mongoose.model("User");
